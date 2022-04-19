@@ -18,6 +18,11 @@ body {
   color: #444;
   background-color: #f3f3f3;
   height: 100vh;
+  /* padding: 2rem; */
+}
+
+.nav__parent {
+  margin: 10px;
   padding: 2rem;
 }
 
@@ -96,6 +101,17 @@ body {
 }
 /* SINGLE MOVIE  */
 
+.modal {
+  height: 55vh;
+  width: 50vw;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 10;
+}
+
 .single__movie {
   margin-top: 10px;
   background-color: #69d2f2;
@@ -131,4 +147,29 @@ body {
 .btn__click__me:hover {
   background: rgb(0, 81, 255);
   color: wheat;
+}
+
+.overlay {
+  z-index: 05;
+  position: fixed;
+  top: 0;
+
+  height: inherit;
+  width: 100%;
+  opacity: 0.5;
+  background-color: rgb(0, 0, 0);
+}
+
+.close__modal {
+  height: 32px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+
+  margin: 5px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
