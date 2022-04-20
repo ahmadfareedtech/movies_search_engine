@@ -8,7 +8,7 @@ const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 
 const renderMovies = function (movie, i) {
-  const html = `
+    const html = `
 <div class="movie__row">
 <img class="thumbnail" src=${movie.Poster} alt="not available"></img>
 <div class="movie__details">
@@ -30,23 +30,23 @@ const renderMovies = function (movie, i) {
 </div>
 `;
 
-  moviesContainer.insertAdjacentHTML("beforeend", html);
-  // getting buttons and names
-  const movieName = document.querySelector(`.name${i}`);
-  const btnDetail = document.querySelector(`.btn${i}`);
-  // event handler to render single movie on click
-  btnDetail.addEventListener("click", function () {
-    const mName = movieName.textContent.trim().split(" ").splice(1).join(" ");
-    // moviesContainer.innerHTML = "";
+    moviesContainer.insertAdjacentHTML("beforeend", html);
+    // getting buttons and names
+    const movieName = document.querySelector(`.name${i}`);
+    const btnDetail = document.querySelector(`.btn${i}`);
+    // event handler to render single movie on click
+    btnDetail.addEventListener("click", function () {
+        const mName = movieName.textContent.trim().split(" ").splice(1).join(" ");
+        // moviesContainer.innerHTML = "";
 
-    getMovieDetails(mName);
-    modal.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-  });
+        getMovieDetails(mName);
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    });
 };
 
 const renderSingleMovie = function (movie) {
-  const html = `
+    const html = `
 <div class="single__movie">
 <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -80,23 +80,23 @@ const renderSingleMovie = function (movie) {
     <label class="lb">Language:</label> ${movie.Language}
   </div>
   <div class="single__boxoffice">
-    <label class="lb">BocOffice:</label> ${movie.BoxOffice}
+    <label class="lb">BoxOffice:</label> ${movie.BoxOffice}
   </div>
 </div>
 </div>
 `;
-  // modal.innerHTML = "";
-  modal.insertAdjacentHTML("afterbegin", html);
+    // modal.innerHTML = "";
+    modal.insertAdjacentHTML("afterbegin", html);
 };
 
 const getJson = function (url) {
-  return fetch(url).then((res) => {
-    if (!res.ok) {
-      throw new Error(`${res.status}`);
-    }
+    return fetch(url).then((res) => {
+        if (!res.ok) {
+            throw new Error(`${res.status}`);
+        }
 
-    return res.json();
-  });
+        return res.json();
+    });
 };
 
 const myKey = "3167af42";
@@ -105,46 +105,46 @@ const myKey = "3167af42";
 
 ///////////////////// getting movies list ////////////////////////
 const getMoviesByName = function (name) {
-  const url = `http://www.omdbapi.com/?s=${name}&apikey=${myKey}&r=json`;
-  //   const url = `https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=${name}`;
+    const url = `http://www.omdbapi.com/?s=${name}&apikey=${myKey}&r=json`;
+    //   const url = `https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/lookup?term=${name}`;
 
-  getJson(url).then(function (data) {
-    console.log(data);
-    const arr = data.Search;
-    // console.log(arr);
-    arr.forEach(function (el, i) {
-      renderMovies(el, i);
+    getJson(url).then(function (data) {
+        console.log(data);
+        const arr = data.Search;
+        // console.log(arr);
+        arr.forEach(function (el, i) {
+            renderMovies(el, i);
+        });
     });
-  });
 };
 ///////////////////////// get one movie ///////////////////////////
 const getMovieDetails = function (name) {
-  const url = `http://www.omdbapi.com/?t=${name}&apikey=${myKey}`;
+    const url = `http://www.omdbapi.com/?t=${name}&apikey=${myKey}`;
 
-  getJson(url).then(function (details) {
-    // console.log(details);
-    renderSingleMovie(details);
+    getJson(url).then(function (details) {
+        // console.log(details);
+        renderSingleMovie(details);
 
-    // close model element is rendered after movie details button
-    // is click hence it does ot exist prior to this
-    // so we need to make selection here
-    const closeModal = document.querySelector(".close__modal");
-    closeModal.addEventListener("click", function () {
-      modal.classList.add("hidden");
-      overlay.classList.add("hidden");
+        // close model element is rendered after movie details button
+        // is click hence it does ot exist prior to this
+        // so we need to make selection here
+        const closeModal = document.querySelector(".close__modal");
+        closeModal.addEventListener("click", function () {
+            modal.classList.add("hidden");
+            overlay.classList.add("hidden");
 
-      modal.innerHTML = "";
+            modal.innerHTML = "";
+        });
     });
-  });
 };
 
 //////////////////////// event handlers ///////////////////////////
 
 btn.addEventListener("click", function (e) {
-  e.preventDefault();
-  // const movieName = searchEl.value;
+    e.preventDefault();
+    // const movieName = searchEl.value;
 
-  moviesContainer.innerHTML = "";
-  // console.log(movieName);
-  getMoviesByName(searchEl.value);
+    moviesContainer.innerHTML = "";
+    // console.log(movieName);
+    getMoviesByName(searchEl.value);
 });
