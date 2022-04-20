@@ -19,6 +19,17 @@
       <div class="search">
         <form class="search__form">
           <input class="search__form--input" type="text" />
+          <div class="filters">
+            <select class="movie__year btn__filters" data-size='10'>
+              <option value="none">Year</option>
+            </select>
+            <select class="type btn__filters" >
+            <option value="none">Type</option>
+            <option value="movie">movies</option>
+            <option value="series">series</option>
+          </select>
+          </div>
+         
           <button class="btn">Search</button>
         </form>
       </div>
