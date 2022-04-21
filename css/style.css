@@ -36,15 +36,7 @@ body {
 
 .search__form {
   /* background-color: rgba(0, 0, 255, 0.3); */
-  background-image: linear-gradient(
-    to right,
-    #4285f4,
-    #ea4335,
-    #fbbc05,
-    #4285f4,
-    #34a853,
-    #ea4335
-  );
+  background-image: linear-gradient(to right, #4285f4, #ea4335);
 
   display: flex;
   justify-content: space-evenly;
