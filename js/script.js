@@ -58,10 +58,11 @@ const renderMovies = function (movie, i) {
   const btnDetail = document.querySelector(`.btn${i}`);
   // event handler to render single movie on click
   btnDetail.addEventListener("click", function () {
-    const mName = movieName.textContent.trim().split(" ").splice(1).join(" ");
+    // const mName = movieName.textContent.trim().split(" ").splice(1).join(" ");
+
     // moviesContainer.innerHTML = "";
 
-    getMovieDetails(mName);
+    getMovieDetails(movie.imdbID);
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
   });
@@ -140,33 +141,39 @@ const makeURL = function (name) {
 const getMoviesByName = function (name) {
   const url = makeURL(name);
 
-  getJson(url).then(function (data) {
-    console.log(data);
-    const arr = data.Search;
+  getJson(url)
+    .then(function (data) {
+      console.log(data);
+      const arr = data.Search;
 
-    arr.forEach(function (el, i) {
-      renderMovies(el, i);
-    });
-  });
+      if (!arr) throw new Error("Movie Not Found, Searhc different one");
+
+      arr.forEach(function (el, i) {
+        renderMovies(el, i);
+      });
+    })
+    .catch((err) => console.log(err));
 };
 ///////////////////////// get one movie ///////////////////////////
-const getMovieDetails = function (name) {
-  const url = `http://www.omdbapi.com/?t=${name}&apikey=${myKey}`;
+const getMovieDetails = function (imdbId) {
+  const url = `http://www.omdbapi.com/?i=${imdbId}&apikey=${myKey}`;
 
-  getJson(url).then(function (details) {
-    renderSingleMovie(details);
+  getJson(url)
+    .then(function (details) {
+      renderSingleMovie(details);
 
-    // close model element is rendered after movie details button
-    // is click hence it does ot exist prior to this
-    // so we need to make selection here
-    const closeModal = document.querySelector(".close__modal");
-    closeModal.addEventListener("click", function () {
-      modal.classList.add("hidden");
-      overlay.classList.add("hidden");
+      // close model element is rendered after movie details button
+      // is click hence it does ot exist prior to this
+      // so we need to make selection here
+      const closeModal = document.querySelector(".close__modal");
+      closeModal.addEventListener("click", function () {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
 
-      modal.innerHTML = "";
-    });
-  });
+        modal.innerHTML = "";
+      });
+    })
+    .catch((err) => console.log(err, "Movie not found"));
 };
 
 //////////////////////// event handlers ///////////////////////////
@@ -184,5 +191,4 @@ movieYear.addEventListener("change", function () {
 
 type.addEventListener("change", function () {
   selectedType = type.value;
-  console.log(selectedType);
 });

@@ -20,25 +20,33 @@
         <form class="search__form">
           <input class="search__form--input" type="text" />
           <div class="filters">
-            <select class="movie__year btn__filters" data-size='10'>
+            <select class="movie__year btn__filters" data-size="10">
               <option value="none">Year</option>
+              <option value="none">any...</option>
             </select>
-            <select class="type btn__filters" >
-            <option value="none">Type</option>
-            <option value="movie">movies</option>
-            <option value="series">series</option>
-          </select>
+            <select class="type btn__filters">
+              <option value="none">Type</option>
+              <option value="movie">movies</option>
+              <option value="series">series</option>
+            </select>
           </div>
-         
+
           <button class="btn">Search</button>
         </form>
       </div>
-  </div>
+    </div>
 
     <dir class="modal hidden"></dir>
 
     <div class="container">
-     
+      <div class="message">
+        <span id="M">M</span>
+        <span id="o1">o</span>
+        <span id="o2">o</span>
+        <span id="g">g</span>
+        <span id="l">l</span>
+        <span id="e">e</span>
+      </div>
       <!-- <div class="movie__row">
             <img class="thumbnail" src="/img-test.png"></img>
             <div class="movie__details">
@@ -94,8 +102,9 @@
           <div class="single__boxoffice">
             <label class="lb">BocOffice:</label> The Batman
           </div>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
+    <div class="pagination__div">pagination to be done here</div>
 
     <!-- JavaScript Bundle with Popper -->
     <script src="/js/script.js"></script>

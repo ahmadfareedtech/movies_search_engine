@@ -18,7 +18,6 @@ body {
   color: #444;
   background-color: #f3f3f3;
   height: 100vh;
-  /* padding: 2rem; */
 }
 
 /* NAV */
@@ -30,12 +29,22 @@ body {
 .nav {
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 /*  SEARCH PART */
 
 .search__form {
-  background-color: rgba(0, 0, 255, 0.3);
+  /* background-color: rgba(0, 0, 255, 0.3); */
+  background-image: linear-gradient(
+    to right,
+    #4285f4,
+    #ea4335,
+    #fbbc05,
+    #4285f4,
+    #34a853,
+    #ea4335
+  );
 
   display: flex;
   justify-content: space-evenly;
@@ -61,12 +70,13 @@ body {
 }
 
 .filters {
-  margin-left: 05%;
+  margin-left: 11rem;
+  margin-bottom: 2rem;
   display: flex;
   align-self: flex-start;
   justify-content: center;
   gap: 2rem;
-  width: 30%;
+  /* width: 30%; */
 }
 
 .btn__filters {
@@ -74,14 +84,11 @@ body {
   height: 4rem;
   border: none;
   border-radius: 2rem;
-
-  padding-left: 1rem;
 }
 
 .movie__year {
   align-self: flex-start;
   margin-left: 20%;
-  width: 10rem;
   height: 4rem;
   border: none;
   border-radius: 2rem;
@@ -93,11 +100,17 @@ body {
   border: none;
   border-radius: 3rem;
   cursor: pointer;
+  font-size: large;
 }
 
 .btn:active {
-  scale: (0.98);
   background-color: rgb(60, 169, 175);
+}
+
+.btn:hover {
+  background-color: #444;
+  color: #fbbc05;
+  font-size: x-large;
 }
 
 /* //////////// Movie Row ///////// */
@@ -202,4 +215,59 @@ body {
 
 .hidden {
   display: none;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  height: 62vh;
+  font-size: 15rem;
+  text-align: center;
+}
+
+#M {
+  color: #4285f4;
+}
+
+#o1 {
+  color: #ea4335;
+}
+
+#o2 {
+  color: #fbbc05;
+}
+
+#g {
+  color: #4285f4;
+}
+
+#l {
+  color: #34a853;
+}
+
+#e {
+  color: #ea4335;
+}
+
+.pagination__div {
+  background-color: #444;
+  color: #f3f3f3;
+  text-align: center;
+  line-height: 6rem;
+}
+
+@media screen and (max-width: 680px) {
+  .message {
+    font-size: 8rem;
+  }
+
+  .filters {
+    align-self: center;
+    margin-left: 0;
+  }
+
+  .movie__year {
+    justify-content: center;
+    margin-left: 0;
+  }
 }
