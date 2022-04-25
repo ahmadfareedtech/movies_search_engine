@@ -179,7 +179,7 @@ const getNewPAge = function (option) {
 ////////////// EVENT next or Previous Page /////////////
 
 paginationDiv.addEventListener("click", function (e) {
-  if (e.target.classList.contains("next") && pageNumber < noOfPages) {
+  if (e.target.classList.contains("next") && pageNumber < noOfPages - 5) {
     // console.log("next page");
     getNewPAge("next");
   } else if (e.target.classList.contains("prev") && pageNumber > 1) {
