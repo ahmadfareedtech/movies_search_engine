@@ -212,7 +212,7 @@ body {
 .message {
   display: flex;
   justify-content: center;
-  height: 62vh;
+  height: 60vh;
   font-size: 15rem;
   text-align: center;
 }
@@ -241,11 +241,31 @@ body {
   color: #ea4335;
 }
 
+.err {
+  font-size: large;
+  color: red;
+}
+
 .pagination__div {
-  background-color: #444;
+  background-color: rgb(204, 204, 204);
   color: #f3f3f3;
   text-align: center;
   line-height: 6rem;
+}
+
+.p-btn {
+  background-color: #444;
+  padding: 1.5rem;
+  font-size: large;
+  margin: 3px;
+}
+
+.p-btn:hover {
+  background-color: #34a853;
+}
+
+.p-btn:active {
+  background-color: #34a853;
 }
 
 @media screen and (max-width: 680px) {

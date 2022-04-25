@@ -1,6 +1,8 @@
 "use strict";
 
 const myKey = "3167af42";
+let pageNumber = 0;
+let noOfPages = 0;
 
 const movieRow = document.querySelector(".movie__row");
 const moviesContainer = document.querySelector(".container");
@@ -10,6 +12,11 @@ const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const movieYear = document.querySelector(".movie__year");
 const type = document.querySelector(".type");
+const msgParent = document.querySelector(".msgParent");
+4;
+const paginationDiv = document.querySelector(".pagination__div");
+
+const messageEl = document.querySelector(".message");
 
 let selectedMovieYear = movieYear.value;
 let selectedType = type.value;
@@ -53,6 +60,7 @@ const renderMovies = function (movie, i) {
 `;
 
   moviesContainer.insertAdjacentHTML("beforeend", html);
+  msgParent.innerHTML = "";
   // getting buttons and names
   const movieName = document.querySelector(`.name${i}`);
   const btnDetail = document.querySelector(`.btn${i}`);
@@ -112,6 +120,99 @@ const renderSingleMovie = function (movie) {
   modal.insertAdjacentHTML("afterbegin", html);
 };
 
+//////////////// PAGINATION ///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+const btns = function (amount) {
+  // console.log(amount);
+  let html = "";
+  let till = 0;
+
+  till = amount < 5 ? amount : Number(pageNumber) + 5;
+  for (let i = pageNumber; i <= till; i++) {
+    html += ` <span class="p-btn p-btn-no">${i}</span>`;
+  }
+  return html;
+};
+/////////////// RENDER BTNS FOR PAGINATION ////////////////
+
+const renderPaginationBtn = function (amount) {
+  let html = ` <span class="p-btn first"><<</span> <span class="p-btn prev"><</span>`;
+
+  html += btns(amount);
+
+  html += ` <span class="p-btn next">></span> <span class="p-btn last">>></span>`;
+
+  paginationDiv.innerHTML = "";
+  paginationDiv.insertAdjacentHTML("beforeend", html);
+};
+
+//////////////////////// click and goto page //////////////////
+
+const getNewPAge = function (option) {
+  console.log(typeof option, option);
+  console.log(pageNumber);
+  if (option === "next") pageNumber++;
+  else if (option === "prev") pageNumber--;
+  else if (option === "first") pageNumber = 1;
+  else if (option === "last") pageNumber = noOfPages - 6;
+  else if (option > noOfPages) {
+    console.log(noOfPages);
+    return;
+  } else if (option == pageNumber) return;
+  else if (option != pageNumber) pageNumber = option;
+  else return;
+
+  console.log(pageNumber);
+  getJson(
+    `http://www.omdbapi.com/?s=${searchEl.value}&page=${pageNumber}&&apikey=${myKey}&r=json`
+  ).then(function (data) {
+    const arr = data.Search;
+
+    moviesContainer.innerHTML = "";
+
+    arr.forEach(function (el, i) {
+      renderMovies(el, i);
+    });
+
+    renderPaginationBtn(noOfPages);
+  });
+};
+
+////////////// EVENT next or Previous Page /////////////
+
+paginationDiv.addEventListener("click", function (e) {
+  if (e.target.classList.contains("next") && pageNumber < noOfPages) {
+    // console.log("next page");
+    getNewPAge("next");
+  } else if (e.target.classList.contains("prev") && pageNumber > 1) {
+    // console.log(pageNumber);
+    // console.log("prev page");
+    getNewPAge("prev");
+  } else if (e.target.classList.contains("first") && pageNumber !== 1) {
+    getNewPAge("first");
+  } else if (e.target.classList.contains("last") && pageNumber !== noOfPages) {
+    getNewPAge("last");
+  } else if (e.target.classList.contains("p-btn-no")) {
+    // console.log(e.target.textContent);
+    getNewPAge(e.target.textContent);
+  } else {
+    // console.log("wrong elemnt clicked");
+    return;
+  }
+});
+
+////////////////// ERROR ///////////////
+
+const renderError = function (errMsg) {
+  messageEl.innerHTML = "";
+
+  const html = `<div class="err">${errMsg}</div>`;
+
+  console.log(errMsg);
+
+  messageEl.insertAdjacentHTML("beforeend", html);
+};
+
 // Get json ////////////////
 const getJson = function (url) {
   return fetch(url).then((res) => {
@@ -145,12 +246,24 @@ const getMoviesByName = function (name) {
     .then(function (data) {
       console.log(data);
       const arr = data.Search;
+      const results = data.totalResults;
 
-      if (!arr) throw new Error("Movie Not Found, Searhc different one");
+      noOfPages = Math.ceil(results / 10);
+
+      if (!arr) {
+        const errMsg = "Movie not found please enter an other name...";
+        renderError(errMsg);
+        throw new Error("Movie Not Found, Searhc different one");
+      }
+
+      paginationDiv.innerHTML = "";
+      moviesContainer.innerHTML = "";
 
       arr.forEach(function (el, i) {
         renderMovies(el, i);
       });
+      pageNumber = 1;
+      renderPaginationBtn(noOfPages);
     })
     .catch((err) => console.log(err));
 };
@@ -180,6 +293,12 @@ const getMovieDetails = function (imdbId) {
 
 btn.addEventListener("click", function (e) {
   e.preventDefault();
+
+  if (String(searchEl.value).length < 3 || !searchEl.value) {
+    alert("Empty input or too short! try again with proper input");
+    return;
+  }
+
   moviesContainer.innerHTML = "";
 
   getMoviesByName(searchEl.value);
