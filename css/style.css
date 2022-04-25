@@ -62,7 +62,7 @@ body {
 }
 
 .filters {
-  margin-left: 11rem;
+  margin-left: 14rem;
   margin-bottom: 2rem;
   display: flex;
   align-self: flex-start;
@@ -134,6 +134,7 @@ body {
 .detail label {
   font-weight: bold;
 }
+
 /* SINGLE MOVIE  */
 
 .modal {
@@ -171,6 +172,7 @@ body {
   width: 400px;
   margin: 10px;
 }
+
 .btn__click__me {
   border: none;
   background: var(--gradient-primary);
