@@ -155,10 +155,8 @@ const getNewPAge = function (option) {
   else if (option === "prev") pageNumber--;
   else if (option === "first") pageNumber = 1;
   else if (option === "last") pageNumber = noOfPages - 6;
-  else if (option > noOfPages) {
-    console.log(noOfPages);
-    return;
-  } else if (option == pageNumber) return;
+  else if (option > noOfPages) return;
+  else if (option == pageNumber) return;
   else if (option != pageNumber) pageNumber = option;
   else return;
 
