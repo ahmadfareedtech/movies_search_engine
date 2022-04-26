@@ -1,8 +1,15 @@
 "use strict";
 
+// Made by : Ahmad Fareed
+// First time JS practice project
+
+// it may blow out in some special conditions
+// pagitnation is little wiered but with first project only in JS no JQ I -
+// just stopped it where it felt Ok not making it excelent
+// css and html is little untidey or random you may find... forgive me for that
+// use your own api key
+
 const myKey = "3167af42";
-let pageNumber = 0;
-let noOfPages = 0;
 
 const movieRow = document.querySelector(".movie__row");
 const moviesContainer = document.querySelector(".container");
@@ -13,14 +20,15 @@ const overlay = document.querySelector(".overlay");
 const movieYear = document.querySelector(".movie__year");
 const type = document.querySelector(".type");
 const msgParent = document.querySelector(".msgParent");
-4;
 const paginationDiv = document.querySelector(".pagination__div");
-
 const messageEl = document.querySelector(".message");
 
+let pageNumber = 0;
+let noOfPages = 0;
 let selectedMovieYear = movieYear.value;
 let selectedType = type.value;
 
+// this fills the list of options for year filters form 1900 to current year
 const yearOps = function () {
   const curYear = new Date().getFullYear();
 
@@ -32,6 +40,7 @@ const yearOps = function () {
   }
 };
 
+// executuing to fill options in year filter
 yearOps();
 
 // render functions ////////////////////////////
@@ -123,19 +132,21 @@ const renderSingleMovie = function (movie) {
 //////////////// PAGINATION ///////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 const btns = function (amount) {
-  // console.log(amount);
+  // amount = noOfPages
   let html = "";
-  let till = 0;
+  let till = 0; // to loop till "till"
 
+  // show less buttons if amount of pages is less than 6
   till = amount < 5 ? amount : Number(pageNumber) + 5;
 
-  if (pageNumber === noOfPages - 6) till = noOfPages;
-
+  // printing buttons
   for (let i = pageNumber; i <= till; i++) {
     html += ` <span class="p-btn p-btn-no b${i}">${i}</span>`;
   }
+
   return html;
 };
+
 /////////////// RENDER BTNS FOR PAGINATION ////////////////
 
 const renderPaginationBtn = function (amount) {
@@ -179,16 +190,17 @@ const getNewPAge = function (option) {
 };
 
 ////////////// EVENT next or Previous Page /////////////
+// addid event listener to the parent element of the buttons
 
 paginationDiv.addEventListener("click", function (e) {
+  // a new call is made to the api in order to get new page
+  // btns are rendered according to scenario of click
+
   if (e.target.classList.contains("next") && pageNumber < noOfPages - 5) {
-    // console.log("next page");
     getNewPAge("next");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("prev") && pageNumber > 1) {
-    // console.log(pageNumber);
-    // console.log("prev page");
     getNewPAge("prev");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     renderPaginationBtn(noOfPages);
@@ -201,24 +213,22 @@ paginationDiv.addEventListener("click", function (e) {
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("p-btn-no")) {
-    // console.log(e.target.textContent);
     getNewPAge(e.target.textContent);
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     document.querySelector(`.b${pageNumber}`).classList.add("btn-active");
+    // no need to render buttons when clicked on a single button
   } else {
-    // console.log("wrong elemnt clicked");
     return;
   }
 });
 
 ////////////////// ERROR ///////////////
+// if no movies are found render error message
 
 const renderError = function (errMsg) {
   messageEl.innerHTML = "";
 
   const html = `<div class="err">${errMsg}</div>`;
-
-  console.log(errMsg);
 
   messageEl.insertAdjacentHTML("beforeend", html);
 };
@@ -235,6 +245,7 @@ const getJson = function (url) {
 };
 
 /////////////////// API requesting Funcs ///////////////////
+// make usrl according to the slelected values of the two filter options
 
 const makeURL = function (name) {
   if (selectedMovieYear === "none" && selectedType === "none") {
@@ -258,6 +269,7 @@ const getMoviesByName = function (name) {
       const arr = data.Search;
       const results = data.totalResults;
 
+      // calculating no. pages can be made with 10 results each page
       noOfPages = Math.ceil(results / 10);
 
       if (!arr) {
@@ -276,6 +288,8 @@ const getMoviesByName = function (name) {
       renderPaginationBtn(noOfPages);
     })
     .catch((err) => console.log(err));
+  // for errror that don't let the promise to be fulfilled
+  // I didn't wanted to work on this for this project
 };
 ///////////////////////// get one movie ///////////////////////////
 const getMovieDetails = function (imdbId) {
@@ -313,6 +327,8 @@ btn.addEventListener("click", function (e) {
 
   getMoviesByName(searchEl.value);
 });
+
+// setting filter values
 
 movieYear.addEventListener("change", function () {
   selectedMovieYear = movieYear.value;
