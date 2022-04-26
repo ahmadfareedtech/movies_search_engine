@@ -270,6 +270,10 @@ body {
   background-color: #34a853;
 }
 
+.btn-active {
+  background-color: #34a853;
+}
+
 @media screen and (max-width: 680px) {
   .message {
     font-size: 8rem;

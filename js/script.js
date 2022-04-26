@@ -128,8 +128,11 @@ const btns = function (amount) {
   let till = 0;
 
   till = amount < 5 ? amount : Number(pageNumber) + 5;
+
+  if (pageNumber === noOfPages - 6) till = noOfPages;
+
   for (let i = pageNumber; i <= till; i++) {
-    html += ` <span class="p-btn p-btn-no">${i}</span>`;
+    html += ` <span class="p-btn p-btn-no b${i}">${i}</span>`;
   }
   return html;
 };
@@ -144,17 +147,18 @@ const renderPaginationBtn = function (amount) {
 
   paginationDiv.innerHTML = "";
   paginationDiv.insertAdjacentHTML("beforeend", html);
+  document.querySelector(`.b${pageNumber}`).classList.add("btn-active");
 };
 
 //////////////////////// click and goto page //////////////////
+let prevPage = 0;
 
 const getNewPAge = function (option) {
-  console.log(typeof option, option);
-  console.log(pageNumber);
+  prevPage = pageNumber;
   if (option === "next") pageNumber++;
   else if (option === "prev") pageNumber--;
   else if (option === "first") pageNumber = 1;
-  else if (option === "last") pageNumber = noOfPages - 6;
+  else if (option === "last") pageNumber = noOfPages - 5;
   else if (option > noOfPages) return;
   else if (option == pageNumber) return;
   else if (option != pageNumber) pageNumber = option;
@@ -171,8 +175,6 @@ const getNewPAge = function (option) {
     arr.forEach(function (el, i) {
       renderMovies(el, i);
     });
-
-    renderPaginationBtn(noOfPages);
   });
 };
 
@@ -182,17 +184,27 @@ paginationDiv.addEventListener("click", function (e) {
   if (e.target.classList.contains("next") && pageNumber < noOfPages - 5) {
     // console.log("next page");
     getNewPAge("next");
+    document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("prev") && pageNumber > 1) {
     // console.log(pageNumber);
     // console.log("prev page");
     getNewPAge("prev");
+    document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("first") && pageNumber !== 1) {
     getNewPAge("first");
+    document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("last") && pageNumber !== noOfPages) {
     getNewPAge("last");
+    document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("p-btn-no")) {
     // console.log(e.target.textContent);
     getNewPAge(e.target.textContent);
+    document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    document.querySelector(`.b${pageNumber}`).classList.add("btn-active");
   } else {
     // console.log("wrong elemnt clicked");
     return;
