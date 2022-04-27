@@ -242,6 +242,8 @@ paginationDiv.addEventListener("click", function (e) {
 
 const renderError = function (errMsg) {
   messageEl.innerHTML = "";
+  moviesContainer.innerHTML = "";
+  paginationDiv.innerHTML = "";
 
   const html = `<div class="err">${errMsg}</div>`;
 
@@ -302,7 +304,9 @@ const getMoviesByName = function (name) {
       count = 1;
       renderPaginationBtn(noOfPages);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      renderError(err);
+    });
   // for errror that don't let the promise to be fulfilled
   // I didn't wanted to work on this for this project
 };
