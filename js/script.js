@@ -21,9 +21,9 @@ const msgParent = document.querySelector(".msgParent");
 const paginationDiv = document.querySelector(".pagination__div");
 const messageEl = document.querySelector(".message");
 
-let pageNumber = 0;
-let noOfPages = 0;
-let count = 0;
+let pageNumber = 0; // current page number
+let noOfPages = 0; // total number of pages
+let count = 0; // to keep track of buttons to be updated or not
 let selectedMovieYear = movieYear.value;
 let selectedType = type.value;
 
