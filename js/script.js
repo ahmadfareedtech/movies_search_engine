@@ -3,8 +3,6 @@
 // Made by : Ahmad Fareed
 // First time JS practice project
 
-// it may blow out in some special conditions
-// pagitnation is little wiered but with first project only in JS no JQ I -
 // just stopped it where it felt Ok not making it excelent
 // css and html is little untidey or random you may find... forgive me for that
 // use your own api key
@@ -25,6 +23,7 @@ const messageEl = document.querySelector(".message");
 
 let pageNumber = 0;
 let noOfPages = 0;
+let count = 0;
 let selectedMovieYear = movieYear.value;
 let selectedType = type.value;
 
@@ -175,7 +174,6 @@ const getNewPAge = function (option) {
   else if (option != pageNumber) pageNumber = option;
   else return;
 
-  console.log(pageNumber);
   getJson(
     `http://www.omdbapi.com/?s=${searchEl.value}&page=${pageNumber}&&apikey=${myKey}&r=json`
   ).then(function (data) {
@@ -196,19 +194,36 @@ paginationDiv.addEventListener("click", function (e) {
   // a new call is made to the api in order to get new page
   // btns are rendered according to scenario of click
 
-  if (e.target.classList.contains("next") && pageNumber < noOfPages - 5) {
+  if (e.target.classList.contains("next") && pageNumber < noOfPages) {
     getNewPAge("next");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    if (count < 6) {
+      // as we have 6 buttons so, when 7th button is to be show
+      // this condition will be false as value will be 6
+      document.querySelector(`.b${pageNumber}`).classList.add("btn-active");
+      count++;
+      return;
+    }
+    // render new buttons after every six next clicks
     renderPaginationBtn(noOfPages);
+    count = 1;
   } else if (e.target.classList.contains("prev") && pageNumber > 1) {
     getNewPAge("prev");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
+    if (count > 1) {
+      document.querySelector(`.b${pageNumber}`).classList.add("btn-active");
+      count--;
+      return;
+    }
+    // render new buttons when count is 1
     renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("first") && pageNumber !== 1) {
+    count = 1;
     getNewPAge("first");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     renderPaginationBtn(noOfPages);
   } else if (e.target.classList.contains("last") && pageNumber !== noOfPages) {
+    count = 1;
     getNewPAge("last");
     document.querySelector(`.b${prevPage}`).classList.remove("btn-active");
     renderPaginationBtn(noOfPages);
@@ -265,7 +280,6 @@ const getMoviesByName = function (name) {
 
   getJson(url)
     .then(function (data) {
-      console.log(data);
       const arr = data.Search;
       const results = data.totalResults;
 
@@ -285,6 +299,7 @@ const getMoviesByName = function (name) {
         renderMovies(el, i);
       });
       pageNumber = 1;
+      count = 1;
       renderPaginationBtn(noOfPages);
     })
     .catch((err) => console.log(err));
